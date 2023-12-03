@@ -13,16 +13,8 @@ def search_query(request):
         body = json.loads(body_unicode)
         query = body['query']
 
-        print(query)
-        print("""
-            SELECT DISTINCT ?CarID
-            WHERE {
-            ?CarID :hasMachinetype [:hasModel <http://saya-akan-datang.org/%s>] .
-            }
-            LIMIT 50
-        """ % query)
-
         sparql = SPARQLWrapper("http://localhost:7200/repositories/CarPriceDB")
+        # Query berdasarkan model
         sparql.setQuery("""
             PREFIX : <http://saya-akan-datang.org/data#>
             SELECT DISTINCT ?CarID
