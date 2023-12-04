@@ -42,7 +42,7 @@ def search_query_by_model(request):
     return JsonResponse({'message': 'Not Found'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
-def search_query_by_model(request):
+def search_query_by_manufacturer(request):
     if request.method == 'GET':
         params = QueryDict(request.META['QUERY_STRING'])
         query = params.get('query', '')
@@ -52,17 +52,17 @@ def search_query_by_model(request):
         page = str(page)
 
         sparql = SPARQLWrapper("http://localhost:7200/repositories/CarPriceDB")
-        # Query berdasarkan model
+        # Query berdasarkan Manufacturer
         sparql.setQuery("""
                     PREFIX : <http://saya-akan-datang.org/data#>
                     SELECT DISTINCT ?CarID ?price ?currency
                     WHERE {
-                    ?CarID :hasMachinetype [:hasModel ?model] .
+                    ?CarID :hasMachinetype [:hasManufacturer ?manufacturer] .
                     ?CarID :Price [
                         :amount ?price;
                         :currency ?currency
                     ] .
-                    FILTER regex(str(?model), "%s", "i")
+                    FILTER regex(str(?manufacturer), "%s", "i")
                     }
                     LIMIT 20
                     OFFSET %s
