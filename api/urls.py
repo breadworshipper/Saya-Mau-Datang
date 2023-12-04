@@ -3,5 +3,5 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('query', views.search_query, name='search_query'),
+    path('query_by_model', views.search_query_by_model, name='search_query_by_model'),
 ]
