@@ -76,6 +76,40 @@ def search_query_by_manufacturer(request):
     return JsonResponse({'message': 'Not Found'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
+def search_query_by_price_range(request):
+    if request.method == 'GET':
+        params = QueryDict(request.META['QUERY_STRING'])
+        min_price = params.get('min', '0')
+        max_price = params.get('max', '999999999')
+        page = params.get('page', 1)
+        page = int(page)
+        page = (page - 1) * 20
+        page = str(page)
+
+        sparql = SPARQLWrapper("http://localhost:7200/repositories/CarPriceDB")
+        # Query berdasarkan model
+        sparql.setQuery("""
+                    PREFIX : <http://saya-akan-datang.org/data#>
+                    SELECT DISTINCT ?CarID ?price ?currency
+                    WHERE {
+                    ?CarID :Price [
+                        :amount ?price;
+                        :currency ?currency
+                    ] .
+                    FILTER (?price >= %s && ?price <= %s)
+                    }
+                    LIMIT 20
+                    OFFSET %s
+                """ % (min_price, max_price, page))
+
+        sparql.setReturnFormat(JSON)
+        results = sparql.query().convert()
+
+        return JsonResponse(results, safe=False)
+
+    return JsonResponse({'message': 'Not Found'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
 def get_detail_by_id(request, car_id):
     if request.method == 'GET':
         sparql = SPARQLWrapper("http://localhost:7200/repositories/CarPriceDB")
