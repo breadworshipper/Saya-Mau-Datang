@@ -5,8 +5,10 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
 from SPARQLWrapper import SPARQLWrapper, JSON
+from django.views.decorators.csrf import csrf_exempt
 
 
+@csrf_exempt
 @api_view(['GET'])
 def search_query_by_model(request):
     if request.method == 'GET':
@@ -41,6 +43,7 @@ def search_query_by_model(request):
 
     return JsonResponse({'message': 'Not Found'}, status=status.HTTP_404_NOT_FOUND)
 
+@csrf_exempt
 @api_view(['GET'])
 def search_query_by_manufacturer(request):
     if request.method == 'GET':
@@ -75,6 +78,8 @@ def search_query_by_manufacturer(request):
 
     return JsonResponse({'message': 'Not Found'}, status=status.HTTP_404_NOT_FOUND)
 
+
+@csrf_exempt
 @api_view(['GET'])
 def search_query_by_price_range(request):
     if request.method == 'GET':
@@ -109,6 +114,8 @@ def search_query_by_price_range(request):
 
     return JsonResponse({'message': 'Not Found'}, status=status.HTTP_404_NOT_FOUND)
 
+
+@csrf_exempt
 @api_view(['GET'])
 def get_detail_by_id(request, car_id):
     if request.method == 'GET':
