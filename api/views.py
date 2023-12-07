@@ -45,6 +45,41 @@ def search_query_by_model(request):
 
 @csrf_exempt
 @api_view(['GET'])
+def search_query_by_category(request):
+    if request.method == 'GET':
+        params = QueryDict(request.META['QUERY_STRING'])
+        query = params.get('query', '')
+        page = params.get('page', 1)
+        page = int(page)
+        page = (page - 1) * 20
+        page = str(page)
+
+        sparql = SPARQLWrapper("http://localhost:7200/repositories/CarPriceDB")
+        # Query berdasarkan model
+        sparql.setQuery("""
+                    PREFIX : <http://saya-akan-datang.org/data#>
+                    SELECT DISTINCT ?CarID ?price ?currency
+                    WHERE {
+                    ?CarID :hasMachinetype [:hasCarCategory ?category] .
+                    ?CarID :Price [
+                        :amount ?price;
+                        :currency ?currency
+                    ] .
+                    FILTER regex(str(?category), "%s", "i")
+                    }
+                    LIMIT 20
+                    OFFSET %s
+                """ % (query, page))
+
+        sparql.setReturnFormat(JSON)
+        results = sparql.query().convert()
+
+        return JsonResponse(results, safe=False)
+
+    return JsonResponse({'message': 'Not Found'}, status=status.HTTP_404_NOT_FOUND)
+
+@csrf_exempt
+@api_view(['GET'])
 def search_query_by_manufacturer(request):
     if request.method == 'GET':
         params = QueryDict(request.META['QUERY_STRING'])
