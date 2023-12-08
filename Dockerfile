@@ -24,8 +24,8 @@ RUN pip install -r /requirements.txt
 # Copy project code
 COPY . .
 
-RUN python manage.py collectstatic --noinput --clear
-RUN python manage.py migrate
+# RUN python manage.py --noinput --clear
+# RUN python manage.py migrate
 
 # Run as non-root user
 RUN chown -R django:django /app
