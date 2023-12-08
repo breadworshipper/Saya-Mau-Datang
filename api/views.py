@@ -17,7 +17,7 @@ def search_query_by_model(request):
         page = (page - 1) * 20
         page = str(page)
 
-        sparql = SPARQLWrapper("http://localhost:7200/repositories/CarPriceDB")
+        sparql = SPARQLWrapper("http://graphdb-semweb.andi-rhn.com/repositories/CarPriceDB")
         # Query berdasarkan model
         sparql.setQuery("""
                     PREFIX : <http://saya-akan-datang.org/data#>
@@ -51,7 +51,7 @@ def search_query_by_category(request):
         page = (page - 1) * 20
         page = str(page)
 
-        sparql = SPARQLWrapper("http://localhost:7200/repositories/CarPriceDB")
+        sparql = SPARQLWrapper("http://graphdb-semweb.andi-rhn.com/repositories/CarPriceDB")
         # Query berdasarkan model
         sparql.setQuery("""
                     PREFIX : <http://saya-akan-datang.org/data#>
@@ -85,7 +85,7 @@ def search_query_by_manufacturer(request):
         page = (page - 1) * 20
         page = str(page)
 
-        sparql = SPARQLWrapper("http://localhost:7200/repositories/CarPriceDB")
+        sparql = SPARQLWrapper("http://graphdb-semweb.andi-rhn.com/repositories/CarPriceDB")
 
         sparql.setQuery("""
         PREFIX : <http://saya-akan-datang.org/data#>
@@ -179,7 +179,7 @@ def search_query_by_price_range(request):
         page = (page - 1) * 20
         page = str(page)
 
-        sparql = SPARQLWrapper("http://localhost:7200/repositories/CarPriceDB")
+        sparql = SPARQLWrapper("http://graphdb-semweb.andi-rhn.com/repositories/CarPriceDB")
         # Query berdasarkan model
         sparql.setQuery("""
                     PREFIX : <http://saya-akan-datang.org/data#>
@@ -205,7 +205,7 @@ def search_query_by_price_range(request):
 @api_view(['GET'])
 def get_detail_by_id(request, car_id):
     if request.method == 'GET':
-        sparql = SPARQLWrapper("http://localhost:7200/repositories/CarPriceDB")
+        sparql = SPARQLWrapper("http://graphdb-semweb.andi-rhn.com/repositories/CarPriceDB")
         # Query berdasarkan Manufacturer
         sparql.setQuery("""
                     PREFIX : <http://saya-akan-datang.org/data#>
