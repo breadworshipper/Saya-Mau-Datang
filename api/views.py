@@ -5,10 +5,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
 from SPARQLWrapper import SPARQLWrapper, JSON
-from django.views.decorators.csrf import csrf_exempt
 
 
-@csrf_exempt
 @api_view(['GET'])
 def search_query_by_model(request):
     if request.method == 'GET':
@@ -43,7 +41,6 @@ def search_query_by_model(request):
 
     return JsonResponse({'message': 'Not Found'}, status=status.HTTP_404_NOT_FOUND)
 
-@csrf_exempt
 @api_view(['GET'])
 def search_query_by_category(request):
     if request.method == 'GET':
@@ -78,7 +75,6 @@ def search_query_by_category(request):
 
     return JsonResponse({'message': 'Not Found'}, status=status.HTTP_404_NOT_FOUND)
 
-@csrf_exempt
 @api_view(['GET'])
 def search_query_by_manufacturer(request):
     if request.method == 'GET':
@@ -132,9 +128,6 @@ WHERE {
         manufacturer_label = manufacturer_info['manufacturerLabel']['value']
 
         manufacturer_id = manufacturer_uri.split("/")[-1]
-        print(manufacturer_id)
-
-        print(manufacturer_label, manufacturer_uri)
 
         sparql.setQuery("""
         PREFIX : <http://saya-akan-datang.org/data#>
@@ -175,7 +168,6 @@ WHERE {
     return JsonResponse({'message': 'Not Found'}, status=status.HTTP_404_NOT_FOUND)
 
 
-@csrf_exempt
 @api_view(['GET'])
 def search_query_by_price_range(request):
     if request.method == 'GET':
@@ -210,8 +202,6 @@ def search_query_by_price_range(request):
 
     return JsonResponse({'message': 'Not Found'}, status=status.HTTP_404_NOT_FOUND)
 
-
-@csrf_exempt
 @api_view(['GET'])
 def get_detail_by_id(request, car_id):
     if request.method == 'GET':
