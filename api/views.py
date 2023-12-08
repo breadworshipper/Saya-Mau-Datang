@@ -1,5 +1,3 @@
-import json
-
 from django.http import QueryDict
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -288,10 +286,9 @@ def get_detail_by_id(request, car_id):
         manufacturer_label = manufacturer_label_result['results']['bindings'][0]['manufacturerLabel']['value']
 
         manufacturer_info["manufacturerLabel"] = {
-                    "type": "literal",
-                    "value": manufacturer_label
-                }
-        
+            "type": "literal",
+            "value": manufacturer_label
+        }
 
         return JsonResponse(results, safe=False)
     return JsonResponse({'message': 'Not Found'}, status=status.HTTP_404_NOT_FOUND)
