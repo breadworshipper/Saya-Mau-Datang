@@ -6,7 +6,7 @@ ARG MIGRATION_DB_URL
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/app \
-    DJANGO_SETTINGS_MODULE=project_django.settings \
+    DJANGO_SETTINGS_MODULE=SayaMauDatang.settings \
     PORT=8000 \
     WEB_CONCURRENCY=2
 
@@ -33,4 +33,4 @@ USER django
 
 # Run application
 # CMD gunicorn project_name.wsgi:application
-CMD ["gunicorn", "project_django.wsgi"]
+CMD ["gunicorn", "SayaMauDatang.wsgi"]
